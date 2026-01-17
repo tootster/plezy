@@ -82,45 +82,61 @@ class _SyncOffsetControlState extends State<SyncOffsetControl> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Current offset display
+
+          // Slider
           Text(
             formatSyncOffset(_currentOffset),
             style: const TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+
           Text(_getDescriptionText(), style: const TextStyle(color: Colors.white70, fontSize: 16)),
-          const SizedBox(height: 48),
-          // Slider
+          const SizedBox(height: 4),
+          // Step adjustment buttons
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                t.videoControls.minusTime(amount: "2", unit: "s"),
-                style: const TextStyle(color: Colors.white70),
-              ),
-              Expanded(
-                child: Slider(
-                  value: _currentOffset,
-                  min: -2000,
-                  max: 2000,
-                  divisions: 80, // 50ms steps
-                  activeColor: Colors.blue,
-                  inactiveColor: Colors.white24,
-                  onChanged: (value) {
-                    setState(() {
-                      _currentOffset = value;
-                    });
-                  },
-                  onChangeEnd: (value) {
-                    _applyOffset(value);
-                  },
+              ElevatedButton(
+                onPressed: () => _applyOffset(_currentOffset - 100),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
+                child: Text(t.videoControls.minusTime(amount: "100", unit: "ms")),
               ),
-              Text(
-                t.videoControls.addTime(amount: "2", unit: "s"),
-                style: const TextStyle(color: Colors.white70),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () => _applyOffset(_currentOffset - 50),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                child: Text(t.videoControls.minusTime(amount: "50", unit: "ms")),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () => _applyOffset(_currentOffset + 50),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                child: Text(t.videoControls.addTime(amount: "50", unit: "ms")),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () => _applyOffset(_currentOffset + 100),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[800],
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                child: Text(t.videoControls.addTime(amount: "100", unit: "ms")),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 5),
           // Reset button
           ElevatedButton.icon(
             onPressed: _currentOffset != 0 ? _resetOffset : null,
